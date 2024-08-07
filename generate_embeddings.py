@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 import torchtext; torchtext.disable_torchtext_deprecation_warning()
 
 
-model_num = 100
-cbow_loaded = torch.load("word2vec/saved_models/cbow_psycho_{}_epochs.pth".format(model_num))
-vocabulary = torch.load('word2vec/saved_vocab/vocabulary_psycho.pth')
+model_num = 30
+cbow_loaded = torch.load("saved_models/cbow_RIP_{}_epochs.pth".format(model_num))
+vocabulary = torch.load('saved_vocab/vocabulary_RIP.pth')
 embedding_layer_wts = list(cbow_loaded.parameters())[0]
 # print(embedding_layer_wts[0].shape)
 word_lst = vocabulary.get_itos()
@@ -25,7 +25,7 @@ def plot_embeddings_2D(embedding_array,word_lst):
     plt.scatter(x,y)
     for i, word in enumerate(word_lst):
         ax.text(x[i],y[i],word)
-    plt.savefig("word2vec/word_embedding_plots/cbow_{}_epochs_embeddings_2D_plot".format(model_num))
+    plt.savefig("word_embedding_plots/cbow_{}_epochs_embeddings_2D_plot".format(model_num))
     plt.show()
     plt.close()
 
@@ -97,36 +97,13 @@ class Token():
        
 #visualisation
 def main():
-    embedding_array = embedding_layer_wts.detach().numpy().copy()
+    embedding_array = embedding_layer_wts.cpu().detach().numpy().copy()
     embedding_array[0] = np.zeros(embedding_array[0].shape)
-    patrick = Token("patrick")
-    blonde = Token("blonde")
-    sex = Token("sex")
-    woman = Token("woman")
-    money = Token("money")
-    emotion = Token("emotion")
-    blood = Token("blood")
-    I = Token("i")
-    greed = Token("greed")
-    kill = Token("kill")
-    dinner = Token("dinner")
-    drink = Token("drink")
-    price = Token("price")
-    routine = Token("routine")
-    homeless = Token("homeless")
-    dorsia = Token("dorsia")
-    print(blonde+sex)
-    print(patrick+dorsia)
     # plot_embeddings_2D(embedding_array,word_lst)
-    print(similar_word("dorsia"))
-    # print(similar_word("woman"))
-    # print(similar_word("man"))
-    # print(similar_word("money"))
-    # print(similar_word("emotion"))
-    # print(similar_word("greed"))  
-    # print(similar_word("patrick"))
-    # print(similar_word("kill"))
-
+    print(similar_word("female"))
+    black = Token("white")
+    person = Token("person")
+    print(black+person)
 
      
 

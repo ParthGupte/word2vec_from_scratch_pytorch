@@ -44,8 +44,8 @@ def collate_fn_CBOW(batch,vocab:torchtext.vocab.Vocab,CBOW_window_size:int):
             batch_input.append(input_token_ids)
             batch_output.append(output_token_id)
    
-    batch_input = torch.tensor(batch_input,dtype=torch.long)
-    batch_output = torch.tensor(batch_output,dtype=torch.long)
+    batch_input = torch.tensor(batch_input,dtype=torch.long).to("cuda")
+    batch_output = torch.tensor(batch_output,dtype=torch.long).to("cuda")
     return batch_input, batch_output
 
 
@@ -58,8 +58,9 @@ def collate_fn_CBOW(batch,vocab:torchtext.vocab.Vocab,CBOW_window_size:int):
 def main():
     penn_dataloader_vocab = DataLoader(penn_dataset,collate_fn = collate_fn_vocab)
     vocabulary = build_vocab_from_iterator(penn_dataloader_vocab)
+    vocabulary.append_token("<unk>")
     vocabulary.set_default_index(vocabulary["<unk>"])
-    torch.save(vocabulary,'word2vec/saved_vocab/vocabulary_psycho.pth')
+    torch.save(vocabulary,'saved_vocab/vocabulary_RIP.pth')
 
 
 if __name__ == "__main__":

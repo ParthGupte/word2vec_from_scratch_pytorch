@@ -37,12 +37,13 @@ def train_loop(dataloader:DataLoader, model:nn.Module,loss_fn:nn.CrossEntropyLos
 
 
 def main():
-    vocabulary = torch.load('word2vec/saved_vocab/vocabulary_psycho.pth')
+    vocabulary = torch.load('saved_vocab/vocabulary_RIP.pth')
     cbow = CBOW(len(vocabulary))
+    cbow.to("cuda")
     epochs = 100
-    batch_size = 64
+    batch_size = 128
     window_size = 3 #n on the left and n on the right of the centerword
-    loss_fn = nn.CrossEntropyLoss()
+    loss_fn = nn.CrossEntropyLoss().to("cuda")
     optimizer = torch.optim.SGD(cbow.parameters())
 
 
@@ -57,15 +58,15 @@ def main():
     for t in range(epochs):
         print(f"Epoch {t+1}\n-------------------------------")
         train_loop(penn_dataloader_CBOW,cbow,loss_fn,optimizer)
-        if (t+1)%25 == 0:
+        if (t+1)%10 == 0:
             print("Saving model")
-            torch.save(cbow,"word2vec/saved_models/cbow_psycho_{}_epochs.pth".format(t+1))
+            torch.save(cbow,"saved_models/cbow_RIP_{}_epochs.pth".format(t+1))
         print("Done!")
     t2 = time.time()
 
 
     print("Training Time: ",t2-t1,"secs")
-    torch.save(cbow,"word2vec/saved_models/cbow_psycho_{}_epochs.pth".format(epochs))
+    torch.save(cbow,"saved_models/cbow_RIP_{}_epochs.pth".format(epochs))
 
 
 if __name__ == '__main__':

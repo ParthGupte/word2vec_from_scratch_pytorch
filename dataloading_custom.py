@@ -38,22 +38,21 @@ class CustomDataset(Dataset):
         self.text_loc = text_loc
         self.transform = transform
         with open(self.text_loc,"r",encoding=encoding,) as f:
-            text = ' '.join([line.strip() for line in f.readlines()])
-            self.lines = text.split(".")
+            self.lines = f.readlines()
    
     def __len__(self):
         return len(self.lines)
 
 
     def __getitem__(self,idx):
-        if not self.tranform:
+        if not self.transform:
             return self.lines[idx]
         else:
             return self.transform(self.lines[idx])
 
 
 def collate_into_batches_CBOW(batch):
-    return torch.concat([x[0] for x in batch],dim=0), torch.concat([x[1] for x in batch],dim=0)
+    return torch.concat([x[0] for x in batch],dim=0).to("cuda"), torch.concat([x[1] for x in batch],dim=0).to("cuda")
 
 
 
@@ -68,7 +67,7 @@ def collate_into_batches_CBOW(batch):
 
 
 
-penn_dataset = CustomDataset("data/datasets/american_psycho/AMERICAN_PSYCHO.txt")
+penn_dataset = CustomDataset("data/word2vec_data.txt")
    
 # print(penn_dataset[78])
  
