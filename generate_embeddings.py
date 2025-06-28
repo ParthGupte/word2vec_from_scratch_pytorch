@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import torchtext; torchtext.disable_torchtext_deprecation_warning()
 
 
-model_num = 30
-cbow_loaded = torch.load("saved_models/cbow_RIP_{}_epochs.pth".format(model_num))
+model_num = 100
+cbow_loaded = torch.load("saved_models/cbow_psycho_{}_epochs.pth".format(model_num))
 vocabulary = torch.load('saved_vocab/vocabulary_RIP.pth')
 embedding_layer_wts = list(cbow_loaded.parameters())[0]
 # print(embedding_layer_wts[0].shape)

@@ -3,13 +3,13 @@ from training import *
 
 model_num = 30
 vocabulary = torch.load('saved_vocab/vocabulary_RIP.pth')
-cbow_loaded = torch.load("saved_models/cbow_RIP_{}_epochs.pth".format(model_num))
+cbow_loaded = torch.load("saved_models/cbow_RIP_{}_epochs.pth".format(model_num)).to("cuda")
 
 
 epochs = 70
 batch_size = 128
 window_size = cbow_loaded.window_size #n on the left and n on the right of the centerword
-loss_fn = cbow_loaded.loss_fn
+loss_fn = cbow_loaded.loss_fn.to("cuda")
 optimizer = cbow_loaded.optimizer
 
 
@@ -28,4 +28,4 @@ t2 = time.time()
 
 
 print("Training Time: ",t2-t1,"secs")
-torch.save(cbow_loaded,"saved_models/cbow_psycho_{}_epochs.pth".format(cbow_loaded.epochs_trained))
+torch.save(cbow_loaded,"saved_models/cbow_RIP_{}_epochs.pth".format(cbow_loaded.epochs_trained))
